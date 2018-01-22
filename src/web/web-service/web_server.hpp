@@ -97,6 +97,7 @@ private:
     static std::string HandleGetAvailableNetworkResponse(const std::string &aGetAvailableNetworkRequest,
                                                          void *aUserData);
     static std::string HandleMdnsResponse(const std::string &aMdnsRequest, void *aUserData);
+    static std::string HandleConnectWifiNetworkResponse(const std::string &aConnectWifiNetworkRequest, void *aUserData);
 
     std::string HandleJoinNetworkRequest(const std::string &aJoinRequest);
     std::string HandleFormNetworkRequest(const std::string &aFormRequest);
@@ -105,6 +106,7 @@ private:
     std::string HandleGetStatusRequest(const std::string &aGetStatusRequest);
     std::string HandleGetAvailableNetworkResponse(const std::string &aGetAvailableNetworkRequest);
     std::string HandleMdnsResponse(const std::string &aMdnsRequest);
+    std::string HandleConnectWifiNetworkResponse(const std::string &aConnectWifiNetworkRequest);
 
     void HandleHttpRequest(const char *aUrl, const char *aMethod, HttpRequestCallback aCallback);
     void ResponseJoinNetwork(void);
@@ -114,6 +116,7 @@ private:
     void ResponseGetStatus(void);
     void ResponseGetAvailableNetwork(void);
     void ResponseMdnsRequest(void);
+    void ResponseConnectWifiNetworkRequest(void);
     void DefaultHttpResponse(void);
 
     void Init(void);
@@ -121,6 +124,7 @@ private:
 
     char                 mIfName[IFNAMSIZ];
     HttpServer          *mServer;
+    ot::Web::WifiService mWifiService;
     ot::Web::WpanService mWpanService;
     ot::Web::MdnsService mMdnsService;
 };

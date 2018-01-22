@@ -47,6 +47,7 @@
 #define OT_GET_NETWORK_PATH "^/get_properties$"
 #define OT_JOIN_NETWORK_PATH "^/join_network$"
 #define OT_SET_NETWORK_PATH "^/settings$"
+#define OT_CONNECT_WIFI_NETWORK_PATH "^/connect_wifi_network$"
 #define OT_REQUEST_METHOD_GET "GET"
 #define OT_REQUEST_METHOD_POST "POST"
 #define OT_RESPONSE_SUCCESS_STATUS "HTTP/1.1 200 OK\r\n"
@@ -97,6 +98,7 @@ void WebServer::StartWebServer(const char *aIfName, uint16_t aPort)
     ResponseGetStatus();
     ResponseGetAvailableNetwork();
     ResponseMdnsRequest();
+    ResponseConnectWifiNetworkRequest();
     DefaultHttpResponse();
     std::thread ServerThread([this]() {
                 mServer->start();
@@ -287,6 +289,14 @@ std::string WebServer::HandleMdnsResponse(const std::string &aMdnsRequest, void 
     return webServer->HandleMdnsResponse(aMdnsRequest);
 }
 
+std::string HandleConnectWifiNetworkResponse(const std::string &aConnectWifiNetworkRequest, void *aUserData)
+{
+    WebServer *webServer = static_cast<WebServer *>(aUserData);
+
+    return webServer->Handle
+}
+
+
 void WebServer::ResponseJoinNetwork(void)
 {
     HandleHttpRequest(OT_JOIN_NETWORK_PATH, OT_REQUEST_METHOD_POST, HandleJoinNetworkRequest);
@@ -320,6 +330,11 @@ void WebServer::ResponseGetAvailableNetwork(void)
 void WebServer::ResponseMdnsRequest(void)
 {
     HandleHttpRequest(OT_BOOT_MDNS_PATH, OT_REQUEST_METHOD_POST, HandleMdnsResponse);
+}
+
+void WebServer::ResponseConnectWifiNetworkRequest(void)
+{
+    HandleHttpRequest(OT_CONNECT_WIFI_NETWORK_PATH, OT_REQUEST_METHOD_POST, HandleConnectWifiNetworkResponse);
 }
 
 std::string WebServer::HandleJoinNetworkRequest(const std::string &aJoinRequest)
@@ -357,6 +372,11 @@ std::string WebServer::HandleGetAvailableNetworkResponse(const std::string &aGet
 std::string WebServer::HandleMdnsResponse(const std::string &aMdnsRequest)
 {
     return mMdnsService.HandleMdnsRequest(aMdnsRequest);
+}
+
+std::string HandleConnectWifiNetworkResponse(const std::string &aConnectWifiNetworkRequest)
+{
+    return mWifiService.HandleConnectWifiNetworkRequest(aConnectWifiNetworkRequest);
 }
 
 } //namespace Web

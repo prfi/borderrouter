@@ -283,7 +283,35 @@
                 </div>
               </form>
             </md-content>
-        </div>        
+        </div>
+
+        <div class="demo-charts mdl-color--white  mdl-cell mdl-cell--12-col mdl-shadow--2dp mdl-grid" ng-show="menu[5].show">
+          <h4>Connect to WiFi network</h4>
+            <md-content layout-padding flex="100">
+              <form name="settingForm">
+                <div layout="row">
+                  <md-input-container flex="100">
+                    <label>SSID</label>
+                    <input required name="ssid" ng-model="setting.wifi.ssid">
+                    <div ng-messages="settingForm.ssid.$error">
+                      <div ng-message="required">This is required.</div>
+                    </div>
+                  </md-input-container>
+                  <md-input-container flex="100">
+                    <label>Password</label>
+                    <input required name="password" ng-model="setting.wifi.password">
+                    <div ng-messages="settingForm.ssid.$error">
+                      <div ng-message="required">This is required.</div>
+                    </div>
+                  </md-input-container>
+                </div>
+
+                <div>
+                  <md-button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit" ng-click="connectWifiNetwork($event)">Connect</md-button>
+                </div>
+              </form>
+            </md-content>
+        </div>      
       </div>
     </main>
   </div>

@@ -76,6 +76,11 @@
                 icon: 'settings',
                 show: false,
             },
+            {
+                title: 'WiFi',
+                icon: 'wifi',
+                show: false,
+            },
         ];
 
         $scope.thread = {
@@ -92,6 +97,10 @@
         $scope.setting = {
             prefix: 'fd11:22::',
             defaultRoute: true,
+            wifi: {
+                ssid: 'Linksys',
+                password: 'nordicBR',
+            },
         };
 
         $scope.headerTitle = 'Home';
@@ -353,6 +362,22 @@
                 });
             }, function() {
                 $mdDialog.cancel();
+            });
+        };
+
+        $scope.connectWifiNetwork = function(ev) {
+            var data = {
+                ssid: $scope.setting.wifi.ssid,
+                password: $scope.setting.wifi.password,
+            };
+            var httpRequest = $({
+                method: 'POST',
+                url: '/connect_wifi_network',
+                data: data,
+            });
+
+            httpRequest.then(function successCallback(response) {
+                $scope.showAlert(event, 'Connected', response.data.result);
             });
         };
     };

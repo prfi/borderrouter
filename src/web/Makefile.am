@@ -62,6 +62,7 @@ libotbr_web_la_LIBADD                                           = \
     $(NULL)
 
 libotbr_web_la_SOURCES                                          = \
+    wifi-controller/wifi_controller.cpp                           \
     wpan-controller/dbus_base.cpp                                 \
     wpan-controller/dbus_join.cpp                                 \
     wpan-controller/dbus_set.cpp                                  \
@@ -76,6 +77,7 @@ libotbr_web_la_SOURCES                                          = \
     pskc-generator/pskc.cpp                                       \
     web-service/mdns_service.cpp                                  \
     web-service/web_server.cpp                                    \
+    web-service/wifi_service.cpp                                  \
     web-service/wpan_service.cpp                                  \
     $(NULL)
 
@@ -86,6 +88,7 @@ libotbr_web_la_LDFLAGS                                          = \
 libotbr_web_la_CPPFLAGS                                         = \
     $(DBUS_CFLAGS)                                                \
     -I$(top_srcdir)/src                                           \
+    -I$(top_srcdir)/src/wifi-controller                           \
     -I$(top_srcdir)/src/wpan-controller                           \
     -I$(top_srcdir)/src/mdns-publisher                            \
     -I$(top_srcdir)/src/web-service                               \
@@ -133,8 +136,10 @@ noinst_HEADERS                                                 = \
     pskc-generator/pskc.hpp                                      \
     utils/encoding.hpp                                           \
     web-service/web_server.hpp                                   \
+    web-service/wifi_service.hpp                                 \
     web-service/wpan_service.hpp                                 \
     web-service/mdns_service.hpp                                 \
+    wifi-controller/wifi_controller.hpp                          \
     wpan-controller/dbus_base.hpp                                \
     wpan-controller/dbus_form.hpp                                \
     wpan-controller/dbus_gateway.hpp                             \
