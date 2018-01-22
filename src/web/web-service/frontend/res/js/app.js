@@ -370,14 +370,14 @@
                 ssid: $scope.setting.wifi.ssid,
                 password: $scope.setting.wifi.password,
             };
-            var httpRequest = $({
+            var httpRequest = $http({
                 method: 'POST',
                 url: '/connect_wifi_network',
                 data: data,
             });
 
             httpRequest.then(function successCallback(response) {
-                $scope.showAlert(event, 'Connected', response.data.result);
+                $scope.showAlert(ev, 'Connect', response.data.result);
             });
         };
     };

@@ -289,13 +289,13 @@ std::string WebServer::HandleMdnsResponse(const std::string &aMdnsRequest, void 
     return webServer->HandleMdnsResponse(aMdnsRequest);
 }
 
-std::string HandleConnectWifiNetworkResponse(const std::string &aConnectWifiNetworkRequest, void *aUserData)
+std::string WebServer::HandleConnectWifiNetworkResponse(const std::string &aConnectWifiNetworkRequest, 
+                                                        void *aUserData)
 {
     WebServer *webServer = static_cast<WebServer *>(aUserData);
 
-    return webServer->Handle
+    return webServer->HandleConnectWifiNetworkResponse(aConnectWifiNetworkRequest);
 }
-
 
 void WebServer::ResponseJoinNetwork(void)
 {
@@ -374,7 +374,7 @@ std::string WebServer::HandleMdnsResponse(const std::string &aMdnsRequest)
     return mMdnsService.HandleMdnsRequest(aMdnsRequest);
 }
 
-std::string HandleConnectWifiNetworkResponse(const std::string &aConnectWifiNetworkRequest)
+std::string WebServer::HandleConnectWifiNetworkResponse(const std::string &aConnectWifiNetworkRequest)
 {
     return mWifiService.HandleConnectWifiNetworkRequest(aConnectWifiNetworkRequest);
 }

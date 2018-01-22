@@ -48,12 +48,13 @@ std::string WifiService::HandleConnectWifiNetworkRequest(const std::string &aCon
     std::string              password;
     int                      ret = ot::Dbus::kWpantundStatus_Ok;   
 
-    VerifyOrExit(reader.parse(aJoinRequest.c_str(), root) == true, ret = kWpanStatus_ParseRequestFailed);
+    VerifyOrExit(reader.parse(aConnectWifiNetworkRequest.c_str(), root) == true, ret = kWpanStatus_ParseRequestFailed);
 
     ssid = root["ssid"].asString();
     password = root["password"].asString();
 
     create_wireless_connection(ssid.c_str(), password.c_str());
+exit:
 
     root.clear();
     root["result"] = mResponseSuccess;
@@ -64,60 +65,9 @@ std::string WifiService::HandleConnectWifiNetworkRequest(const std::string &aCon
         otbrLog(OTBR_LOG_ERR, "wpan service error: %d", ret);
         root["result"] = mResponseFail;
     }
-
     response = jsonWriter.write(root);
     return response;
 }
 
 } //namespace Web
 } //namespace ot
-
-
-//     char extPanId[OT_EXTENDED_PANID_LENGTH * 2 + 1];
-
-//     Json::Value              root;
-//     Json::Reader             reader;
-//     Json::FastWriter         jsonWriter;
-//     std::string              response;
-//     int                      index;
-//     std::string              networkKey;
-//     std::string              prefix;
-//     bool                     defaultRoute;
-//     int                      ret = ot::Dbus::kWpantundStatus_Ok;
-//     ot::Dbus::WPANController wpanController;
-
-//     VerifyOrExit(reader.parse(aJoinRequest.c_str(), root) == true, ret = kWpanStatus_ParseRequestFailed);
-//     index = root["index"].asUInt();
-//     networkKey = root["networkKey"].asString();
-//     prefix = root["prefix"].asString();
-//     defaultRoute = root["defaultRoute"].asBool();
-
-//     wpanController.SetInterfaceName(mIfName);
-//     VerifyOrExit(wpanController.Leave() == ot::Dbus::kWpantundStatus_Ok,
-//                  ret = ot::Dbus::kWpantundStatus_LeaveFailed);
-//     VerifyOrExit(wpanController.Set(kPropertyType_Data,
-//                                     "NetworkKey",
-//                                     networkKey.c_str()) == ot::Dbus::kWpantundStatus_Ok,
-//                  ret = ot::Dbus::kWpantundStatus_SetFailed);
-//     VerifyOrExit(wpanController.Join(mNetworks[index].mNetworkName,
-//                                      mNetworks[index].mChannel,
-//                                      mNetworks[index].mExtPanId,
-//                                      mNetworks[index].mPanId) == ot::Dbus::kWpantundStatus_Ok,
-//                  ret = ot::Dbus::kWpantundStatus_JoinFailed);
-//     VerifyOrExit(wpanController.AddGateway(prefix.c_str(), defaultRoute) == ot::Dbus::kWpantundStatus_Ok,
-//                  ret = ot::Dbus::kWpantundStatus_SetGatewayFailed);
-
-//     ot::Utils::Long2Hex(mNetworks[index].mExtPanId, extPanId);
-// exit:
-
-//     root.clear();
-//     root["result"] = mResponseSuccess;
-
-//     root["error"] = ret;
-//     if (ret != ot::Dbus::kWpantundStatus_Ok)
-//     {
-//         otbrLog(OTBR_LOG_ERR, "wpan service error: %d", ret);
-//         root["result"] = mResponseFail;
-//     }
-//     response = jsonWriter.write(root);
-//     return response;

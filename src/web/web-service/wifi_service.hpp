@@ -41,26 +41,9 @@
 #include <jsoncpp/json/json.h>
 #include <jsoncpp/json/writer.h>
 
-#include "../mdns-publisher/mdns_publisher.hpp"
-#include "../pskc-generator/pskc.hpp"
-#include "../wpan-controller/wpan_controller.hpp"
 #include "../wifi-controller/wifi_controller.hpp"
-#include "../utils/encoding.hpp"
 #include "common/logging.hpp"
-#include "utils/hex.hpp"
 
-/**
- * Wifi parameter constants
- *
- */
-
-#define OT_EXTENDED_PANID_LENGTH 8
-#define OT_HARDWARE_ADDRESS_LENGTH 8
-#define OT_NETWORK_NAME_LENGTH 16
-#define OT_PANID_LENGTH 2
-#define OT_PSKC_MAX_LENGTH 16
-#define OT_HEX_PREFIX_LENGTH 2
-#define OT_PUBLISH_SERVICE_INTERVAL 20
 
 namespace ot {
 namespace Web {
@@ -77,48 +60,15 @@ public:
     
     void SetInterfaceName(const char *aIfName) { strncpy(mIfName, aIfName, sizeof(mIfName)); }
 
-    /**
-     * This method gets status of wpan service.
-     *
-     * @param[inout]  aNetworkName  The pointer to the network name.
-     * @param[inout]  aIfName       The pointer to the extended PAN ID.
-     *
-     * @retval kWpanStatus_OK        Successfully started the wpan service.
-     * @retval kWpanStatus_Offline   Not started the wpan service.
-     * @retval kWpanStatus_Down      The wpantund was down.
-     *
-     */
-    int GetWpanServiceStatus(std::string &aNetworkName, std::string &aExtPanId) const;
-
 private:
-
-    ot::Dbus::WpanNetworkInfo mNetworks[DBUS_MAXIMUM_NAME_LENGTH];
-    int                       mNetworksCount;
     char                      mIfName[IFNAMSIZ];
-    std::string               mNetworkName;
-    std::string               mExtPanId;
     const char               *mResponseSuccess = "successful";
     const char               *mResponseFail = "failed";
-    const char               *mServiceUp = "up";
-    const char               *mServiceDown = "down";
 
     enum
     {
-        kWpanStatus_OK = 0,
-        kWpanStatus_Associating,
-        kWpanStatus_Down,
-        kWpanStatus_Offline,
-        kWpanStatus_Uninitialized,
-        kWpanStatus_ParseRequestFailed,
-        kWpanStatus_GetPropertyFailed,
+        kWifiStatus_OK = 0,
     };
-
-    enum
-    {
-        kPropertyType_String = 0,
-        kPropertyType_Data,
-    };
-
 };
 
 } //namespace Web

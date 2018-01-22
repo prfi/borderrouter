@@ -46,6 +46,7 @@
 #include <boost/asio/ip/tcp.hpp>
 
 #include "mdns_service.hpp"
+#include "wifi_service.hpp"
 #include "wpan_service.hpp"
 
 namespace SimpleWeb {
