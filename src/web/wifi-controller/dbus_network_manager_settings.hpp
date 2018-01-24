@@ -26,29 +26,29 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 
-/**
- * @file
- *   This file provides DBus operations APIs for other modules to control the WiFi interface.
- */
-
-#ifndef WIFI_CONTROLLER_HPP
-#define WIFI_CONTROLLER_HPP
+#ifndef DBUS_NETWORK_MANAGER_SETTINGS_HPP
+#define DBUS_NETWORK_MANAGER_SETTINGS_HPP
 
 #include <list>
 #include <string>
 
-#include "wifi_controller_common.hpp"
+#include "dbus_network_manager_base.hpp"
 
 namespace ot {
 namespace Dbus {
 
-class WifiController {
-	
-	public:
-		int connectToNetwork(const std::string &ssid, const std::string &password);
+class DbusNetworkManagerSettings : public DbusNetworkManagerBase {
 
+public:
+	DbusNetworkManagerSettings();
+
+	int ListConnections(std::list<std::string> &connections);
+
+	int AddWirelessConnection(const std::string &ssid,
+						      const std::string &password,
+						      std::string &newConnPath);
 };
 
 } //namespace Dbus
 } //namespace ot
-#endif  //WIFI_CONTROLLER_HPP
+#endif //DBUS_NETWORK_MANAGER_SETTINGS_HPP

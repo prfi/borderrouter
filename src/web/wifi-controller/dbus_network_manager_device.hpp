@@ -26,29 +26,55 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 
-/**
- * @file
- *   This file provides DBus operations APIs for other modules to control the WiFi interface.
- */
+#ifndef DBUS_NETWORK_MANAGER_DEVICE_HPP
+#define DBUS_NETWORK_MANAGER_DEVICE_HPP
 
-#ifndef WIFI_CONTROLLER_HPP
-#define WIFI_CONTROLLER_HPP
+#include <stdint.h>
 
-#include <list>
-#include <string>
-
-#include "wifi_controller_common.hpp"
+#include "dbus_network_manager_base.hpp"
 
 namespace ot {
 namespace Dbus {
 
-class WifiController {
-	
-	public:
-		int connectToNetwork(const std::string &ssid, const std::string &password);
+enum {
+	kNetworkManagerDevType_UNKNOWN       = 0,
+	kNetworkManagerDevType_ETHERNET      = 1,
+	kNetworkManagerDevType_WIFI          = 2,
+	kNetworkManagerDevType_UNUSED1       = 3,
+	kNetworkManagerDevType_UNUSED2       = 4,
+	kNetworkManagerDevType_BT            = 5,
+	kNetworkManagerDevType_OLPC_MESH     = 6,
+	kNetworkManagerDevType_WIMAX         = 7,
+	kNetworkManagerDevType_MODEM         = 8,
+	kNetworkManagerDevType_INFINIBAND    = 9,
+	kNetworkManagerDevType_BOND          = 10,
+	kNetworkManagerDevType_VLAN          = 11,
+	kNetworkManagerDevType_ADSL          = 12,
+	kNetworkManagerDevType_BRIDGE        = 13,
+	kNetworkManagerDevType_GENERIC       = 14,
+	kNetworkManagerDevType_TEAM          = 15,
+	kNetworkManagerDevType_TUN           = 16,
+	kNetworkManagerDevType_IP_TUNNEL     = 17,
+	kNetworkManagerDevType_MACVLAN       = 18,
+	kNetworkManagerDevType_VXLAN         = 19,
+	kNetworkManagerDevType_VETH          = 20,
+	kNetworkManagerDevType_MACSEC        = 21,
+	kNetworkManagerDevType_DUMMY         = 22,
+	kNetworkManagerDevType_PPP           = 23,
+	kNetworkManagerDevType_OVS_INTERFACE = 24,
+	kNetworkManagerDevType_OVS_PORT      = 25,
+	kNetworkManagerDevType_OVS_BRIDGE    = 26
+};
 
+class DbusNetworkManagerDevice : public DbusNetworkManagerBase {
+
+public:
+	DbusNetworkManagerDevice(const char *aPath);
+
+	int Interface(std::string &aInterface);
+	int DeviceType(uint32_t *pDeviceType);
 };
 
 } //namespace Dbus
 } //namespace ot
-#endif  //WIFI_CONTROLLER_HPP
+#endif //DBUS_NETWORK_MANAGER_DEVICE_HPP

@@ -62,6 +62,10 @@ libotbr_web_la_LIBADD                                           = \
     $(NULL)
 
 libotbr_web_la_SOURCES                                          = \
+    wifi-controller/dbus_network_manager.cpp                      \ 
+    wifi-controller/dbus_network_manager_base.cpp                 \
+    wifi-controller/dbus_network_manager_device.cpp               \
+    wifi-controller/dbus_network_manager_settings.cpp             \
     wifi-controller/wifi_controller.cpp                           \
     wpan-controller/dbus_base.cpp                                 \
     wpan-controller/dbus_join.cpp                                 \
@@ -139,6 +143,10 @@ noinst_HEADERS                                                 = \
     web-service/wifi_service.hpp                                 \
     web-service/wpan_service.hpp                                 \
     web-service/mdns_service.hpp                                 \
+    wifi-controller/dbus_network_manager.hpp                     \
+    wifi-controller/dbus_network_manager_base.hpp                \
+    wifi-controller/dbus_network_manager_device.hpp              \
+    wifi-controller/dbus_network_manager_settings.hpp            \
     wifi-controller/wifi_controller.hpp                          \
     wpan-controller/dbus_base.hpp                                \
     wpan-controller/dbus_form.hpp                                \

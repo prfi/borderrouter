@@ -57,17 +57,15 @@ class WifiService
 public:
 
     std::string HandleConnectWifiNetworkRequest(const std::string &aConnectWifiNetworkRequest);
-    
-    void SetInterfaceName(const char *aIfName) { strncpy(mIfName, aIfName, sizeof(mIfName)); }
 
 private:
-    char                      mIfName[IFNAMSIZ];
     const char               *mResponseSuccess = "successful";
     const char               *mResponseFail = "failed";
 
     enum
     {
-        kWifiStatus_OK = 0,
+        kWifiStatus_Ok                 = 0,
+        kWifiStatus_ParseRequestFailed = 1,
     };
 };
 

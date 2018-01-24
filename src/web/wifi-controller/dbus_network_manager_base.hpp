@@ -26,29 +26,55 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 
-/**
- * @file
- *   This file provides DBus operations APIs for other modules to control the WiFi interface.
- */
+#ifndef DBUS_NETWORK_MANAGER_BASE_HPP
+#define DBUS_NETWORK_MANAGER_BASE_HPP
 
-#ifndef WIFI_CONTROLLER_HPP
-#define WIFI_CONTROLLER_HPP
-
+#include <iostream>
 #include <list>
 #include <string>
+
+#include <dbus/dbus.h>
+
+#include "common/logging.hpp"
 
 #include "wifi_controller_common.hpp"
 
 namespace ot {
 namespace Dbus {
 
-class WifiController {
-	
-	public:
-		int connectToNetwork(const std::string &ssid, const std::string &password);
+class DbusNetworkManagerBase {
 
+public:
+	DbusNetworkManagerBase(const char *aDest, const char *aPath, const char *aIface);
+
+protected:
+	DBusConnection *getConnection();
+
+	DBusMessage *createMessagePropertyGet(const char *propName);
+	DBusMessage *createMessageMethodCall(const char *methodName);
+	
+	std::list<std::string> extractStringsFromObjectPathArray(DBusMessage *msg, DBusError *error);
+	
+	std::string extractStringFromVariant(DBusMessage *msg, DBusError *error);
+
+	uint32_t extractUInt32FromVariant(DBusMessage *msg, DBusError *error);
+
+	std::string extractObjectPath(DBusMessage *msg, DBusError *error);
+
+protected:
+	const char *mDest;
+	const char *mPath;
+	const char *mIface;
 };
+
+void add_bool(DBusMessageIter *iter, const char *str);
+
+void add_string(DBusMessageIter *iter, const char *str);
+
+void add_bytearray(DBusMessageIter *iter, const char *str);
+
+void message_add_dict_entry(DBusMessageIter *iter, void (*func)(DBusMessageIter *, const char *), const char *name, const char *value);
 
 } //namespace Dbus
 } //namespace ot
-#endif  //WIFI_CONTROLLER_HPP
+#endif //DBUS_NETWORK_MANAGER_BASE_HPP

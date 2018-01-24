@@ -46,21 +46,22 @@ std::string WifiService::HandleConnectWifiNetworkRequest(const std::string &aCon
     std::string              response;
     std::string              ssid;
     std::string              password;
-    int                      ret = ot::Dbus::kWpantundStatus_Ok;   
+    int                      ret = kWifiStatus_Ok;
+    ot::Dbus::WifiController wifiController;   
 
-    VerifyOrExit(reader.parse(aConnectWifiNetworkRequest.c_str(), root) == true, ret = kWpanStatus_ParseRequestFailed);
+    VerifyOrExit(reader.parse(aConnectWifiNetworkRequest.c_str(), root) == true, ret = kWifiStatus_ParseRequestFailed);
 
     ssid = root["ssid"].asString();
     password = root["password"].asString();
 
-    create_wireless_connection(ssid.c_str(), password.c_str());
+    wifiController.connectToNetwork(ssid, password);
 exit:
 
     root.clear();
     root["result"] = mResponseSuccess;
 
     root["error"] = ret;
-    if (ret != ot::Dbus::kWpantundStatus_Ok)
+    if (ret != kWifiStatus_Ok)
     {
         otbrLog(OTBR_LOG_ERR, "wpan service error: %d", ret);
         root["result"] = mResponseFail;
